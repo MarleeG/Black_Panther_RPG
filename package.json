@@ -1,0 +1,23 @@
+{
+  "name": "Black_Panther_RPG",
+  "version": "1.0.0",
+  "description": "## Under Construction",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarleeG/Black_Panther_RPG.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MarleeG/Black_Panther_RPG/issues"
+  },
+  "homepage": "https://github.com/MarleeG/Black_Panther_RPG#readme",
+  "dependencies": {
+    "popper.js": "^1.14.7"
+  }
+}
