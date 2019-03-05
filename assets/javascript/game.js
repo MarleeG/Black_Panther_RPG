@@ -1,6 +1,4 @@
 const log = console.log;
-// attackButton
-// var attackButton = $('<button type="button" id="attackButton" class="btn btn-danger btn-lg" disabled>Attack</button>');
 
 
 $(document).ready(function () {
@@ -8,6 +6,7 @@ $(document).ready(function () {
 
     // finds character selected and places it in first div;
     let positionCounter = 1;
+    let currentDefender = '';
 
     var characterImages = [
         {
@@ -144,7 +143,7 @@ $(document).ready(function () {
 
             if (element.name === characterChosen) {
                 element.position = 'your character';
-            
+
                 $('.pickDefenderStance').show();
 
                 $('div.first').append(span.append(imageOfChosenCharacter));
@@ -174,7 +173,6 @@ $(document).ready(function () {
             }
         });
 
-
         // This will show the defenderPickedStance position 
         $('.defender').click(function (event) {
             // log(`clicked a defender!`);
@@ -187,8 +185,6 @@ $(document).ready(function () {
             $('.dps_titles').show();
             $('.pickDefenderStance').hide();
             $('.defenderPickedStance').show();
-
-
 
             characterImages.forEach(element => {
 
@@ -212,12 +208,10 @@ $(document).ready(function () {
 
                 // If the position is the character the user initially picked then...
                 if (element.position === 'your character') {
-
                     $('div.dps_first').append(span.append(yourCharacter));
-                    // $('.users_player').removeClass('text-center');
-                    let attackButton = $('<button type="button" id="attackButton" class="btn btn-danger btn-lg">Attack</button>');
+                    var attackButton = $('<button type="button" id="attackButton" class="btn btn-danger btn-lg attackButton">Attack</button>');
                     $('div.dps_first').append(attackButton);
-                    
+
                     log(`Your character: ${element.name}`);
                 }
 
@@ -225,32 +219,31 @@ $(document).ready(function () {
                 if (element.name === name) {
                     // Display the chosen defender here
                     $('.dps_second').append(span.append(yourCharacter));
+                    currentDefender = name;
 
-                }else if(element.name !== name && element.position !== 'your character'){
-                    if(defendersLeftToDisplay === 2){
+                } else if (element.name !== name && element.position !== 'your character') {
+                    if (defendersLeftToDisplay === 2) {
                         $('.dps_third').append(span.append(yourCharacter));
                         defendersLeftToDisplay--;
-                    }else{
+                    } else {
                         $('.dps_fourth').append(span.append(yourCharacter));
                     }
-
-
                 }
             });
 
-
-
+            // Logs the defender clicked
             log(`Chosen defender:  ${name}`);
-
             $('[data-toggle="popover"]').popover();
-        })
-
-        // add functionality to attack button
-        $('#attackButton').click(function () {
-            log('clicked attack button');
         });
 
+
         $('[data-toggle="popover"]').popover();
+    });
+
+    // add functionality to attack button
+    $(document).on('click','#attackButton', function (event) {
+        // log(event);
+        log('clicked attack button');
     });
 
     $('[data-toggle="popover"]').popover();
