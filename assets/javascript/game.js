@@ -1,36 +1,64 @@
 const log = console.log;
+// attackButton
+// var attackButton = $('<button type="button" id="attackButton" class="btn btn-danger btn-lg" disabled>Attack</button>');
+
 
 $(document).ready(function () {
     let characterChosen = '';
 
-    const characterImages = [
+    // finds character selected and places it in first div;
+    let positionCounter = 1;
+
+    var characterImages = [
         {
             src: './assets/images/black_panther.png',
             alt: 'black_panther',
             name: 'Black Panther',
-            vibraniumPower: 210
+            vibraniumPower: 210,
+            position: ''
         }, {
             src: './assets/images/killmonger.png',
             alt: 'killmonger',
             name: 'Killmonger',
-            vibraniumPower: 200
+            vibraniumPower: 200,
+            position: ''
         }, {
             src: './assets/images/klaw.png',
             alt: 'klaw',
             name: 'Klaw',
-            vibraniumPower: 198
+            vibraniumPower: 198,
+            position: ''
         }, {
             src: './assets/images/man_ape.png',
             alt: 'man_ape',
             name: 'Man Ape',
-            vibraniumPower: 215
+            vibraniumPower: 215,
+            position: ''
         }
     ];
 
+    $('.users_player').hide();
+    $('.enemies').hide();
+    $('.dps_titles').hide();
+
+
     // restarts the game
     function restartGame() {
-        $('.battleStance').hide();
+        positionCounter = 1;
+        $('.users_player').hide();
+        $('.enemies').hide();
+        $('.pre_dps').show();
+
+        $('.pickDefenderStance').hide();
         $('.characters').show();
+
+
+        // Takes everyone back to their original position in the game
+        characterImages.forEach(element => {
+            element.position = '';
+        });
+
+        // remove all classes that are defenders
     }
 
     $('.popover-dismiss').popover({
@@ -72,7 +100,7 @@ $(document).ready(function () {
 
     displayInstructions('Choose your character');
     displayCharacters(characterImages);
-    $('.battleStance').hide();
+    $('.pickDefenderStance').hide();
 
     $('[data-toggle="popover"]').popover();
 
@@ -81,14 +109,18 @@ $(document).ready(function () {
     $('.character').click(function (event) {
         characterChosen = event.target.attributes[4].textContent;
 
+        $('.users_player').text(`Your character`);
+        $('.enemies').text(`defenders`);
+        $('.users_player').show();
+        $('.enemies').show();
+
         // Hides all characters displayed
         $('.characters').hide();
 
         // display new instructions
-        displayInstructions('Battle!')
+        displayInstructions('Select a defender');
 
-        // finds character selected and places it in first div;
-        let positionCounter = 1;
+
         characterImages.forEach(element => {
 
             // Character Image
@@ -107,30 +139,118 @@ $(document).ready(function () {
             span.attr('data-trigger', 'hover');
             span.attr('data-toggle', 'popover');
             span.attr('data-placement', 'bottom');
-            span.attr('data-content', element.name);
+            span.attr('data-content', element.name + ': ' + element.vibraniumPower);
 
 
             if (element.name === characterChosen) {
-                $('.battleStance').show();
+                element.position = 'your character';
+            
+                $('.pickDefenderStance').show();
+
                 $('div.first').append(span.append(imageOfChosenCharacter));
-                log(element);
+
+                // logs my character chosent
+                // log(`Your character: ${JSON.stringify(element)}`);
             }
 
             if (element.name !== characterChosen) {
                 if (positionCounter === 1) {
                     $('div.second').append(span.append(imageOfChosenCharacter));
                     positionCounter++;
+
                 } else if (positionCounter === 2) {
                     $('div.third').append(span.append(imageOfChosenCharacter));
                     positionCounter++;
                 } else if (positionCounter === 3) {
                     $('div.fourth').append(span.append(imageOfChosenCharacter));
                 }
+                element.position = 'defender';
+
+
+                imageOfChosenCharacter.addClass('defender');
+
+                // Logs all the defenders
+                // log(`defender: ${JSON.stringify(element)}`);
             }
         });
 
+
+        // This will show the defenderPickedStance position 
+        $('.defender').click(function (event) {
+            // log(`clicked a defender!`);
+            let { name } = event.target;
+            let defendersLeftToDisplay = 2;
+
+            displayInstructions('Battle!');
+
+            $('.pre_dps').hide();
+            $('.dps_titles').show();
+            $('.pickDefenderStance').hide();
+            $('.defenderPickedStance').show();
+
+
+
+            characterImages.forEach(element => {
+
+                // image
+                var yourCharacter = $('<img>');
+                yourCharacter.attr('class', 'character');
+                yourCharacter.attr('id', element.alt);
+                yourCharacter.attr('src', element.src);
+                yourCharacter.attr('alt', element.alt);
+                yourCharacter.attr('name', element.name);
+
+                // adding popover to image
+                var span = $('<span>');
+                span.attr('data-container', 'body');
+                span.attr('id', 'span_' + element.alt);
+                span.attr('class', 'span_wrap')
+                span.attr('data-trigger', 'hover');
+                span.attr('data-toggle', 'popover');
+                span.attr('data-placement', 'bottom');
+                span.attr('data-content', element.name + ': ' + element.vibraniumPower);
+
+                // If the position is the character the user initially picked then...
+                if (element.position === 'your character') {
+
+                    $('div.dps_first').append(span.append(yourCharacter));
+                    // $('.users_player').removeClass('text-center');
+                    let attackButton = $('<button type="button" id="attackButton" class="btn btn-danger btn-lg">Attack</button>');
+                    $('div.dps_first').append(attackButton);
+                    
+                    log(`Your character: ${element.name}`);
+                }
+
+                // Locate the name of the chosen defender to display it on the screen
+                if (element.name === name) {
+                    // Display the chosen defender here
+                    $('.dps_second').append(span.append(yourCharacter));
+
+                }else if(element.name !== name && element.position !== 'your character'){
+                    if(defendersLeftToDisplay === 2){
+                        $('.dps_third').append(span.append(yourCharacter));
+                        defendersLeftToDisplay--;
+                    }else{
+                        $('.dps_fourth').append(span.append(yourCharacter));
+                    }
+
+
+                }
+            });
+
+
+
+            log(`Chosen defender:  ${name}`);
+
+            $('[data-toggle="popover"]').popover();
+        })
+
+        // add functionality to attack button
+        $('#attackButton').click(function () {
+            log('clicked attack button');
+        });
+
         $('[data-toggle="popover"]').popover();
-        log(`Character Chosen: ${characterChosen}`)
     });
 
     $('[data-toggle="popover"]').popover();

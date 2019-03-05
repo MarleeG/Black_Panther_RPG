@@ -33,49 +33,60 @@
 
     <hr>
 
-    <!-- second -->
-    <!-- <a data-container="body" data-trigger='hover' data-toggle="popover"
-        data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-        Popover on top
-    </a> -->
-
-    <!-- Scrap -->
-    <!-- <a type="button" class="btn btn-secondary" data-container="body" data-trigger='hover' data-toggle="popover"
-        data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-        Popover on top
-    </a> -->
-
-
-    <!-- Popover practice -->
-
     <div class="game">
+
         <br />
+
         <h4 class="user_instructions text-center"></h4>
-        <br />
+
+        <div class="container-fluid pre_dps">
+            <div class="row">
+                <div class="col-lg-6 users_player text-center">
+                    Users player
+                </div>
+                <div class="col-lg-6 enemies text-center">
+                    Enemies
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid dps_titles">
+            <div class="row">
+                <div class="col-lg-4 text-center dps_title_one">Your character</div>
+                <div class="col-lg-4 text-center dps_title_two">Defender</div>
+                <div class="col-lg-4 text-center dps_title_three">Remaining Defenders</div>
+            </div>
+        </div>
+
 
         <div class="characters text-center"></div>
 
 
-        <!-- Battle Stance -->
-        <div class="battleStance">
+        <!-- Pick a Defender Stance -->
+        <div class="pickDefenderStance">
             <div class="container-fluid">
-                <div class="row players" >
-                    <div class="col-lg-6 first text-center"></div>
+                <div class="row players">
+
+                    <div class="col-lg-6 first text-center">
+                    </div>
                     <div class="col-lg-2 second"></div>
                     <div class="col-lg-2 third"></div>
                     <div class="col-lg-2 fourth"></div>
                 </div>
             </div>
         </div>
+
+        <div class="defenderPickedStance">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 dps_first text-center"></div>
+                    <div class="col-lg-4 dps_second text-center"></div>
+                    <div class="col-lg-2 dps_third text-center"></div>
+                    <div class="col-lg-2 dps_fourth text-center"></div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <!-- Script go here -->
-
-    <!-- <script>
-        $(document).ready(function () {
-            $('[data-toggle="popover"]').popover();
-        });
-    </script> -->
 
     <!-- Internal Script -->
     <script src="./assets/javascript/game.js"></script>

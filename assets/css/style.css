@@ -1,8 +1,12 @@
 .character{
-    width: 200px;
+    width: 175px;
     height: auto;
 }
 
-.first{
+.first, .dps_first, .dps_second{
     border-right: double;
+}
+
+.enemies{
+    color: red;
 }
