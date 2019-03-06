@@ -39,11 +39,13 @@ $(document).ready(function () {
     $('.users_player').hide();
     $('.enemies').hide();
     $('.dps_titles').hide();
+    $('#battle_alert').hide();
 
 
     // restarts the game
     function restartGame() {
         positionCounter = 1;
+        $('#battle_alert').hide();
         $('.users_player').hide();
         $('.enemies').hide();
         $('.pre_dps').show();
@@ -58,6 +60,10 @@ $(document).ready(function () {
         });
 
         // remove all classes that are defenders
+    }
+
+    function attackPower(maxAttackPower){
+        return Math.floor((Math.random() * maxAttackPower) + 1)
     }
 
     $('.popover-dismiss').popover({
@@ -175,7 +181,6 @@ $(document).ready(function () {
 
         // This will show the defenderPickedStance position 
         $('.defender').click(function (event) {
-            // log(`clicked a defender!`);
             let { name } = event.target;
             let defendersLeftToDisplay = 2;
 
@@ -242,7 +247,20 @@ $(document).ready(function () {
 
     // add functionality to attack button
     $(document).on('click','#attackButton', function (event) {
-        // log(event);
+        log(`----------------------------------------`);
+        log(`Character chosen ${characterChosen}`);
+        log(`Current Defender: ${currentDefender}`);
+        log(`----------------------------------------`);
+
+        $('#battle_alert').show();
+
+
+        characterImages.forEach(element => {
+            if(element.name === characterChosen){
+                element.attackPower = attackPower(30);
+            }
+        });
+
         log('clicked attack button');
     });
 
