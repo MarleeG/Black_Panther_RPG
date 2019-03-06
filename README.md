@@ -1,8 +1,13 @@
-# Black_Panther_RPG
+# Black Panther RPG
 
-## Under Construction
+## Built With 
 
-
-- Popper.js(https://popper.js.org/)
+- Bootstrap
+- CSS
+- HTML
+- Javscript
 - jQuery
-- 
+- Popper.js(https://popper.js.org/)
+
+## Deployed App
+* [Black Panther RPG] - App (Coming soon!)
