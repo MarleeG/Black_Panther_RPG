@@ -31,13 +31,14 @@
         Black Panther
     </h1>
 
-    <hr>
+    <hr />
 
     <div class="game">
 
         <br />
 
         <h4 class="user_instructions text-center"></h4>
+        <p id="round" class="text-center"></p>
 
         <div class="container-fluid pre_dps">
             <div class="row">
@@ -46,6 +47,25 @@
                 </div>
                 <div class="col-lg-6 enemies text-center">
                     Enemies
+                </div>
+            </div>
+        </div>
+
+        <div class="display_winner text-center">
+            <div class="container-fluid one_winner">
+                <div class="row">
+                    <div class="col-lg-12 " id='one_player_win'></div>
+                </div>
+                <div class="row ">
+                    <div class="col-lg-12 play_again_one_winner">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid three_winners">
+                <div class="row">
+                    <div class="col-lg-12" id='three_player_wins'></div>
                 </div>
             </div>
         </div>
@@ -90,7 +110,7 @@
 
     <!-- div.pickAnother -->
 
-    <br/ >
+    <br />
 
 
     <div class="container-fluid" id='battle_alert'>
@@ -98,7 +118,7 @@
             <div class="col-lg-lg" style='margin: auto'>
                 <div class="alert alert-danger text-center" role="alert">
                     <strong class="text-center">⚔️ Attack 🛡</strong>
-                    <hr/>
+                    <hr />
                     <p id="your_attack_text"></p>
                     <p id="defenders_attack_text"></p>
                 </div>
