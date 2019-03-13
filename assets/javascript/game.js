@@ -1,5 +1,5 @@
+// after the user clicks on restart game button, game should restart...
 const log = console.log;
-
 
 $(document).ready(function () {
     let characterChosen = '';
@@ -19,7 +19,7 @@ $(document).ready(function () {
     var currentDefendersAttackPower = undefined;
 
     let newVibraniumPower = true;
-    log(`newVibraniumPower: ${newVibraniumPower}`);
+    // log(`newVibraniumPower: ${newVibraniumPower}`);
 
     function newVibPower(newPower) {
         if (round >= 2) {
@@ -114,10 +114,12 @@ $(document).ready(function () {
         $('.enemies').hide();
         $('.pre_dps').show();
         $('.display_winner').hide();
+        $('#round').show();
 
 
         $('.pickDefenderStance').hide();
         $('.characters').show();
+        updateRound();
 
 
         // Takes everyone back to their original position in the game
@@ -404,7 +406,7 @@ $(document).ready(function () {
                     round++;
 
                     if (round === 4) {
-                        $('#round').remove();
+                        $('#round').hide();
                     }
 
                     log(`newVibraniumPower: ${newVibraniumPower}`)
@@ -474,8 +476,12 @@ $(document).ready(function () {
         displayCharacters(characterImages);
         $('.pickDefenderStance').hide();
 
-        
+
         restartGame();
+        newVibPower(newVibraniumPower);
+
+
+
     });
 
     function chooseAnotherDefender(defenderDefeatedName) {
