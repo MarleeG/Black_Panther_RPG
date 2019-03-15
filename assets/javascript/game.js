@@ -9,17 +9,18 @@ $(document).ready(function () {
     let currentDefender = '';
     var attackCount = 1;
     let showBattleAlert = true;
-    let colPosition = 2;
+    // let colPosition = 2;
     let defeatedTotal = 0;
     let round = 1;
     let yourAttack = 0;
     let newAttackCount = false;
+    let defenderWinStatus = false;
 
     var usersAttackPower = undefined;
     var currentDefendersAttackPower = undefined;
 
     let newVibraniumPower = true;
-    // log(`newVibraniumPower: ${newVibraniumPower}`);
+
 
     function newVibPower(newPower) {
         if (round >= 2) {
@@ -41,12 +42,12 @@ $(document).ready(function () {
 
 
 
-        log(`------------------------`);
-        log(`newPower: ${newPower}`);
-        log(`usersAttackPower: ${usersAttackPower}`);
-        log(`currentDefendersAttackPower: ${currentDefendersAttackPower}`);
-        log(`attackCount: ${attackCount}`);
-        log(`------------------------`);
+        // log(`------------------------`);
+        // log(`newPower: ${newPower}`);
+        // log(`usersAttackPower: ${usersAttackPower}`);
+        // log(`currentDefendersAttackPower: ${currentDefendersAttackPower}`);
+        // log(`attackCount: ${attackCount}`);
+        // log(`------------------------`);
     }
 
     newVibPower(newVibraniumPower);
@@ -65,7 +66,7 @@ $(document).ready(function () {
             alt: 'killmonger',
             name: 'Killmonger',
             vibraniumPower: 200,
-            originalPower: 205,
+            originalPower: 200,
             position: '',
             defeated: false
         }, {
@@ -99,36 +100,57 @@ $(document).ready(function () {
         $('#round').text(`Round ${round}`);
     }
 
+
     // restarts the game
     function restartGame() {
-        newAttackCount = false;
-        defeatedTotal = 0;
+        characterChosen = '';
         positionCounter = 1;
+        currentDefender = '';
         attackCount = 1;
-        colPosition = 2;
-        yourAttack = 0;
-        round = 1;
         showBattleAlert = true;
-        $('#battle_alert').hide();
+        defeatedTotal = 0;
+        round = 1;
+        yourAttack = 0;
+        newAttackCount = false;
+        usersAttackPower = undefined;
+        currentDefendersAttackPower = undefined;
+        newVibraniumPower = true;
+
+        newVibPower(newVibraniumPower);
+
         $('.users_player').hide();
         $('.enemies').hide();
-        $('.pre_dps').show();
+        $('.dps_titles').hide();
+        $('#battle_alert').hide();
         $('.display_winner').hide();
-        $('#round').show();
+        updateRound();
 
+        displayInstructions('Choose your character');
+        displayCharacters(characterImages);
 
         $('.pickDefenderStance').hide();
+
+        // displays characters - needs to stay
         $('.characters').show();
-        updateRound();
 
 
         // Takes everyone back to their original position in the game
         characterImages.forEach(element => {
             element.position = '';
-            element.defeated = false
+            element.defeated = false;
+            element.vibraniumPower = element.originalPower;
         });
 
-        // remove all classes that are defenders
+        $('[data-toggle="popover"]').popover();
+
+        // UNCOMMENT
+        // $('.span_wrap').remove();
+        // $('#round').show();
+
+
+        // Maybe uncomment
+        // $('.pre_dps').show();
+        // $('.displayCharacters_IMG_SPAN').show();
     }
 
     function attackPower(maxAttackPower) {
@@ -174,7 +196,10 @@ $(document).ready(function () {
     displayCharacters(characterImages);
     $('.pickDefenderStance').hide();
 
-    $('[data-toggle="popover"]').popover();
+    // if issues with popover uncomment
+    // $('[data-toggle="popover"]').popover();
+
+    // in restartGame() function
 
 
     // Allow the user to select a defender
@@ -192,6 +217,7 @@ $(document).ready(function () {
 
         // display new instructions
         displayInstructions('Select a defender');
+        // debugger;
 
         // $('img.character').remove();
         // $('#span_klaw').remove();
@@ -221,7 +247,7 @@ $(document).ready(function () {
             span.attr('data-placement', 'bottom');
             span.attr('data-content', element.name + ': ' + element.vibraniumPower);
 
-            log(`round: ${round}`);
+            // log(`round: ${round}`);
 
             if (element.name === characterChosen) {
                 element.position = 'your character';
@@ -231,10 +257,10 @@ $(document).ready(function () {
                 // log(`Your character: ${JSON.stringify(element)}`);
             }
 
-            if (element.defeated === true) {
-                log(`element.name !== characterChosen :${element.name !== characterChosen}`);
-                log(`element.defeated === false :${element.defeated === false} `);
-            }
+            // if (element.defeated === true) {
+            //     log(`element.name !== characterChosen :${element.name !== characterChosen}`);
+            //     log(`element.defeated === false :${element.defeated === false} `);
+            // }
 
             if (element.name !== characterChosen && element.defeated === false) {
                 if (positionCounter === 1) {
@@ -254,6 +280,7 @@ $(document).ready(function () {
 
         // This will show the defenderPickedStance position 
         $('.defender').click(function (event) {
+            // debugger;
             let { name } = event.target;
             let defendersLeftToDisplay = 2;
 
@@ -262,8 +289,10 @@ $(document).ready(function () {
             $('.pre_dps').hide();
             $('.dps_titles').show();
 
+            // $('.defenderPickedStance_IMG_SPAN').remove();
             $('.defenderPickedStance_IMG_SPAN').remove();
             $('.pickDefenderStance').hide();
+
 
             $('.defenderPickedStance').show();
 
@@ -299,6 +328,7 @@ $(document).ready(function () {
                 // Locate the name of the chosen defender to display it on the screen
                 if (element.name === name && element.defeated === false) {
                     // Display the chosen defender here
+                    // $('')
                     $('.dps_second').append(span.append(yourCharacter));
                     currentDefender = name;
 
@@ -320,35 +350,17 @@ $(document).ready(function () {
     });
 
 
-    function battleAlertText(defendersName, defendersAttackPower, yourAttackPower) {
-        $('#your_attack_text').text(`You attacked ${defendersName} for ${yourAttackPower} damage`);
-        $('#defenders_attack_text').text(`${defendersName} attacked you back for ${defendersAttackPower} damage.`);
-    }
-
-
-    // add functionality to attack button
-    // var usersAttackPower = 0;
-    // var currentDefendersAttackPower = 0;
-
-    // if (newVibraniumPower) {
-    //     var usersAttackPower = attackPower(25);
-    //     var currentDefendersAttackPower = attackPower(25);
-
-    //     newVibraniumPower = false;
-    //     log(`--------------------------------------`);
-    //     log(`newVibPower: ${newVibraniumPower}`);
-    //     log(`usersAttackPower: ${usersAttackPower}`);
-    //     log(`currentDefendersAttackPower: ${currentDefendersAttackPower}`);
-    //     log(`--------------------------------------`);
-
-
+    // function battleAlertText(defendersName, defendersAttackPower, yourAttackPower) {
+    //     $('#your_attack_text').text(`You attacked ${defendersName} for ${yourAttackPower} damage`);
+    //     $('#defenders_attack_text').text(`${defendersName} attacked you back for ${defendersAttackPower} damage.`);
     // }
+
 
     $(document).on('click', '#attackButton', function (event) {
         yourAttack = usersAttackPower * attackCount;
 
 
-        round === 2 ? log(`Your attack ${usersAttackPower} * ${attackCount}`) : log('');
+        // round === 2 ? log(`Your attack ${usersAttackPower} * ${attackCount}`) : log('');
 
         if (showBattleAlert) {
             // Displays battle alert
@@ -364,22 +376,69 @@ $(document).ready(function () {
         }
 
         $('#your_attack_text').text(`You attacked ${currentDefender} for ${yourAttack} damage`);
-        log(`Your attack power: ${yourAttack}`);
+        // log(`Your attack power: ${yourAttack}`);
         $('#defenders_attack_text').text(`${currentDefender} attacked you back for ${currentDefendersAttackPower} damage.`);
 
         characterImages.forEach(element => {
             // If the element in the loop is the same as the character the user chose then subtract the currentDefendersAttackPower from the characterChosen's vibraniumPower
             if (element.name === characterChosen) {
                 element.vibraniumPower = element.vibraniumPower - currentDefendersAttackPower;
-                // log(`Remaining Vibranium Power for ${characterChosen} || ${element.vibraniumPower}`)
 
                 let popoverYourCharacter = $('span#span_' + element.alt);
                 popoverYourCharacter.attr('data-content', element.name + ': ' + element.vibraniumPower);
 
+                // if the character the user chose has vibraniumPower 0 and below they've lost the game
+                if (element.vibraniumPower <= 0) {
+                    log(`Vib Power for your user: ${element.vibraniumPower}`);
+                    defenderWinStatus = true;
+                    element.defeated = true;
 
-                // Subtract the amount that the defender attacked me with from my vibraniumPower
-                // $('#your_attack_text').text(`You attacked ${currentDefender} for ${usersAttackPower} damage`);
-                // $('#defenders_attack_text').text(`${currentDefender} attacked you back for ${currentDefendersAttackPower} damage.`);
+                    if (defenderWinStatus) {
+                        displayInstructions("The Defenders Won 💀");
+                        // $('.user_instructions').text(" ");
+                        $('.pickDefenderStance').remove();
+                        $('#round').hide();
+                        $('.defenderPickedStance').hide();
+                        $('#battle_alert').hide();
+                        $('.dps_titles').hide();
+                        $('.one_winner').hide();
+                        $('.pre_dps').hide();
+                        $('.display_winner').show();
+                    }
+
+
+                    let winningPosition = 0;
+                    characterImages.forEach((item, i) => {
+
+                        // If the character the user chose is the same as the one shown in array then display as winner
+                        if (item.name !== characterChosen) {
+                            winningPosition++
+                            log(`defender winner: ${item.name}`)
+                            let imageOfWinningDefender = $('<img>');
+                            imageOfWinningDefender.attr('class', 'character');
+                            imageOfWinningDefender.attr('id', item.alt);
+                            imageOfWinningDefender.attr('src', item.src);
+                            imageOfWinningDefender.attr('alt', item.alt);
+                            imageOfWinningDefender.attr('name', item.name);
+
+                            // adding popover to image
+                            let spanOfWinningDefender = $('<span>');
+                            spanOfWinningDefender.attr('data-container', 'body');
+                            spanOfWinningDefender.attr('id', 'span_' + item.alt);
+                            spanOfWinningDefender.attr('class', 'span_wrap')
+                            spanOfWinningDefender.attr('data-trigger', 'hover');
+                            spanOfWinningDefender.attr('data-toggle', 'popover');
+                            spanOfWinningDefender.attr('data-placement', 'bottom');
+                            spanOfWinningDefender.attr('data-content', item.name);
+
+                            $(`.defender_${winningPosition}_winner`).append(spanOfWinningDefender.append(imageOfWinningDefender));
+                        }
+                    });
+
+
+                    let playAgainButton = $('<button type="button" id="play_again_button" class="btn btn-dark btn-lg">Dare to play?</button>');
+                    $('.play_again_one_winner').append(playAgainButton);
+                }
             }
 
             if (element.name === currentDefender) {
@@ -409,13 +468,12 @@ $(document).ready(function () {
                         $('#round').hide();
                     }
 
-                    log(`newVibraniumPower: ${newVibraniumPower}`)
+                    // log(`newVibraniumPower: ${newVibraniumPower}`)
                     updateRound();
 
-                    log(`defeated total: ${defeatedTotal}`);
+                    // log(`defeated total: ${defeatedTotal}`);
 
                     if (defeatedTotal >= 3) {
-                        // debugger;
                         displayInstructions("Congrats! You've won 🎉");
                         // $('.user_instructions').text(" ");
                         $('.pickDefenderStance').remove();
@@ -423,7 +481,7 @@ $(document).ready(function () {
                         $('.three_winners').hide();
                         $('.pre_dps').hide();
 
-                        log(`Winner is: ${characterChosen}`);
+                        // log(`Winner is: ${characterChosen}`);
 
                         characterImages.forEach(item => {
                             // If the character the user chose is the same as the one shown in array then display as winner
@@ -471,20 +529,18 @@ $(document).ready(function () {
 
     $(document).on('click', '#play_again_button', function () {
         log(`PLAY AGAIN BUTTON CLICKED`);
+        // restartGame();
+        // refreshes page to restart game
+        location.reload();
+        // displayInstructions('Choose your character');
+        // $('.pickDefenderStance').hide();
 
-        displayInstructions('Choose your character');
-        displayCharacters(characterImages);
-        $('.pickDefenderStance').hide();
-
-
-        restartGame();
-        newVibPower(newVibraniumPower);
-
-
-
+        // displayCharacters(characterImages);
+        // newVibPower(newVibraniumPower);
     });
 
     function chooseAnotherDefender(defenderDefeatedName) {
+        // debugger;
         showBattleAlert = true;
         $('.defenderPickedStance').hide();
         $('.pickDefenderStance').show();
@@ -512,7 +568,6 @@ $(document).ready(function () {
             }
         });
     }
-
 
     $('[data-toggle="popover"]').popover();
 
