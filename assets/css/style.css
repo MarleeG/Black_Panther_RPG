@@ -1,3 +1,8 @@
+#title{
+    font-family: 'Lalezar', cursive;
+    font-size: 75px;
+}
+
 .character{
     width: 175px;
     height: auto;
@@ -9,4 +14,5 @@
 
 .enemies{
     color: red;
+    font-family: 'Hammersmith One', sans-serif;
 }

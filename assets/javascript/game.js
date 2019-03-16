@@ -226,7 +226,8 @@ $(document).ready(function () {
         // $('#span_killmonger').remove();
 
 
-
+        $('.span_wrap').hide();
+        $('img.character').hide();
         characterImages.forEach(element => {
 
             // Character Image
@@ -251,6 +252,7 @@ $(document).ready(function () {
 
             if (element.name === characterChosen) {
                 element.position = 'your character';
+                // debugger;
                 $('.pickDefenderStance').show();
                 $('div.first').append(span.append(imageOfChosenCharacter));
                 // logs my character chosent
@@ -264,6 +266,7 @@ $(document).ready(function () {
 
             if (element.name !== characterChosen && element.defeated === false) {
                 if (positionCounter === 1) {
+
                     $('div.second').append(span.append(imageOfChosenCharacter));
                     positionCounter++;
 
@@ -280,7 +283,18 @@ $(document).ready(function () {
 
         // This will show the defenderPickedStance position 
         $('.defender').click(function (event) {
-            // debugger;
+            debugger;
+
+            // $('div.second').hide();
+            // $('div.third').hide();
+            // $('div.fourth').hide();
+
+
+
+
+            // $('.defenderPickedStance_IMG_SPAN').remove();
+            // $('img.character').remove();
+
             let { name } = event.target;
             let defendersLeftToDisplay = 2;
 
@@ -289,11 +303,16 @@ $(document).ready(function () {
             $('.pre_dps').hide();
             $('.dps_titles').show();
 
-            // $('.defenderPickedStance_IMG_SPAN').remove();
+
+            // UNCOMMENT 
             $('.defenderPickedStance_IMG_SPAN').remove();
+
             $('.pickDefenderStance').hide();
 
-
+            // UNCOMMENT - DELETE THESE 2
+            // $('.span_wrap').hide();
+            // $('img.character').hide();
+            
             $('.defenderPickedStance').show();
 
             characterImages.forEach(element => {
@@ -320,6 +339,7 @@ $(document).ready(function () {
                 // If the position is the character the user initially picked then...
                 if (element.position === 'your character') {
                     $('#attackButton').remove();
+                    debugger;
                     $('div.dps_first').append(span.append(yourCharacter));
                     var attackButton = $('<button type="button" id="attackButton" class="btn btn-danger btn-lg attackButton">Attack</button>');
                     $('div.dps_first').append(attackButton);
@@ -333,12 +353,24 @@ $(document).ready(function () {
                     currentDefender = name;
 
                 } else if (element.name !== name && element.position !== 'your character' && element.defeated === false) {
+                    debugger;
+                    log(`defenders left: ${defendersLeftToDisplay}`);
+                    // if(defendersLeftToDisplay === 0){
+
+                    //     $('.dps_third').append(span.append(yourCharacter));
+
+                    // }
+
+
                     if (defendersLeftToDisplay === 2) {
                         $('.dps_third').append(span.append(yourCharacter));
                         defendersLeftToDisplay--;
                     } else {
                         $('.dps_fourth').append(span.append(yourCharacter));
+                        defendersLeftToDisplay--;
                     }
+
+
                 }
             });
 
@@ -368,11 +400,15 @@ $(document).ready(function () {
             showBattleAlert = false;
 
             $('.defenderPickedStance').show();
-            $('.pickDefenderStance').hide();
+            // $('.pickDefenderStance').hide();
             $('.pre_dps').hide();
+
+
+
             $('h4.user_instructions').text(`Battle`);
+            // displayInstructions('Battle')
             $('.dps_titles').show();
-            $('#battle_alert').show();
+            // $('#battle_alert').show();
         }
 
         $('#your_attack_text').text(`You attacked ${currentDefender} for ${yourAttack} damage`);
@@ -483,27 +519,27 @@ $(document).ready(function () {
 
                         // log(`Winner is: ${characterChosen}`);
 
-                        characterImages.forEach(item => {
+                        characterImages.forEach(e => {
                             // If the character the user chose is the same as the one shown in array then display as winner
-                            if (item.name === characterChosen) {
+                            if (e.name === characterChosen) {
                                 // $('#one_player_win').
                                 // Character Image
                                 let imageOfWinner = $('<img>');
                                 imageOfWinner.attr('class', 'character');
-                                imageOfWinner.attr('id', item.alt);
-                                imageOfWinner.attr('src', item.src);
-                                imageOfWinner.attr('alt', item.alt);
-                                imageOfWinner.attr('name', item.name);
+                                imageOfWinner.attr('id', e.alt);
+                                imageOfWinner.attr('src', e.src);
+                                imageOfWinner.attr('alt', e.alt);
+                                imageOfWinner.attr('name', e.name);
 
                                 // adding popover to image
                                 let spanOfWinner = $('<span>');
                                 spanOfWinner.attr('data-container', 'body');
-                                spanOfWinner.attr('id', 'span_' + item.alt);
+                                spanOfWinner.attr('id', 'span_' + e.alt);
                                 spanOfWinner.attr('class', 'span_wrap')
                                 spanOfWinner.attr('data-trigger', 'hover');
                                 spanOfWinner.attr('data-toggle', 'popover');
                                 spanOfWinner.attr('data-placement', 'bottom');
-                                spanOfWinner.attr('data-content', item.name);
+                                spanOfWinner.attr('data-content', e.name);
                                 // span.addClass('displayCharacters_IMG_SPAN');
                                 $('#one_player_win').append(spanOfWinner.append(imageOfWinner));
                             }
@@ -533,16 +569,16 @@ $(document).ready(function () {
         // refreshes page to restart game
         location.reload();
         // displayInstructions('Choose your character');
-        // $('.pickDefenderStance').hide();
 
         // displayCharacters(characterImages);
         // newVibPower(newVibraniumPower);
     });
 
     function chooseAnotherDefender(defenderDefeatedName) {
-        // debugger;
+        debugger;
         showBattleAlert = true;
         $('.defenderPickedStance').hide();
+        // debugger;
         $('.pickDefenderStance').show();
         $('h4.user_instructions').text(`Select a defender`);
         $('.dps_titles').hide();
@@ -552,6 +588,7 @@ $(document).ready(function () {
         characterImages.forEach(element => {
             // if the position is a defender has not been defeated yet then display it. 
             if (element.name === defenderDefeatedName || element.defeated === true) {
+                $(`img.defender#${element.alt}`).parent().parent().remove();
                 $(`img.defender#${element.alt}`).remove();
             }
         });
