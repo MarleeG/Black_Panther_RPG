@@ -351,7 +351,9 @@ $(document).ready(function () {
                         // $('.user_instructions').text(" ");
                         $('.pickDefenderStance').remove();
                         $('.display_winner').show();
+                        $('#one_player_win').show();
                         $('.three_winners').hide();
+
                         $('.pre_dps').hide();
 
                         characterImages.forEach(e => {
